@@ -1,0 +1,42 @@
+
+# This changelog represents the state of the database schema prior to version
+# 2.3.  The schema was previously generated at runtime by Hibernate for the
+# sake of convenience, but that makes it difficult to version properly and
+# migrate between versions.
+# This changelog was generated based on an existing database and modified
+# slightly to be more generic.  It can be used to initialize a new database
+# from scratch, but it is also intended to be able to synchronize an
+# existing database with Liquibase's changelog.
+databaseChangeLog:
+  - changeSet:
+      id: 1.0/13-05-2020-18-41
+      author: Alex
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: account_pkey
+                  name: username
+                  type: VARCHAR(255)
+              - column:
+                  name: fullname
+                  type: VARCHAR(255)
+              - column:
+                  name: passworld
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: active
+                  type: BOOLEAN
+            tableName: user
+
+  - changeSet:
+      id: 13-05-2020-18-51
+      author: Alex
+      changes:
+        - sql:
+            sql: insert into user (username, fullname, passworld, email, active) values ('alex', 'Alex', '123', 'alex@gmail.com', true)
