@@ -1,4 +1,4 @@
-package com.monitor.Rest;
+package com.monitor.rest;
 
 import com.monitor.domain.User;
 import com.monitor.service.UserService;
@@ -21,7 +21,7 @@ public class UserRest {
         return service.getAll();
     }
 
-    @PostMapping("/new")
+    @PostMapping("/newUser")
     @ResponseStatus(HttpStatus.CREATED)
     public void newUser(@RequestBody User userRest) {
         try {
