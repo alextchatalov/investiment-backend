@@ -2,6 +2,7 @@ package com.monitor.rest;
 
 import com.monitor.domain.User;
 import com.monitor.service.UserService;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,6 @@ public class UserRest {
 
     @Autowired
     private UserService service;
-
     @GetMapping("/list")
     public List<User> getAll() {
         return service.getAll();

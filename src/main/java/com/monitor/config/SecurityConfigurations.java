@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,6 +21,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class SecurityConfigurations extends KeycloakWebSecurityConfigurerAdapter {
+
+    private static final String USER = "USER";
 
     @Autowired
     public void configureGlobal(
@@ -48,10 +51,12 @@ public class SecurityConfigurations extends KeycloakWebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/api/v1/*")
-                .hasRole("user")
-                .anyRequest()
-                .permitAll();
+                .antMatchers(HttpMethod.GET, "/api/v1/**", "/actuator/**").permitAll()
+                //.antMatchers("/api/movies/**/comments").hasAnyRole(USER)
+                .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
+                .anyRequest().authenticated();
+        http.cors().and().csrf().disable();
     }
 
 }
