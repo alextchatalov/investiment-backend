@@ -13,14 +13,14 @@ public class MonitorApplication {
 		SpringApplication.run(MonitorApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/v1/list").allowedOrigins("http://127.0.0.1:3000");
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/api/v1/list").allowedOrigins("http://127.0.0.1:3000");
+//			}
+//		};
+//	}
 
 }

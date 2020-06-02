@@ -2,14 +2,13 @@ package com.monitor.rest;
 
 import com.monitor.domain.User;
 import com.monitor.service.UserService;
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
 public class UserRest {
@@ -17,6 +16,7 @@ public class UserRest {
     @Autowired
     private UserService service;
     @GetMapping("/list")
+    @ResponseStatus(HttpStatus.OK)
     public List<User> getAll() {
         return service.getAll();
     }
