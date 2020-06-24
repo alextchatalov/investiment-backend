@@ -1,0 +1,22 @@
+
+# This changelog represents the state of the database schema prior to version
+# 2.3.  The schema was previously generated at runtime by Hibernate for the
+# sake of convenience, but that makes it difficult to version properly and
+# migrate between versions.
+# This changelog was generated based on an existing database and modified
+# slightly to be more generic.  It can be used to initialize a new database
+# from scratch, but it is also intended to be able to synchronize an
+# existing database with Liquibase's changelog.
+databaseChangeLog:
+  - changeSet:
+      id: 24-06-2020-12-40
+      author: Alex
+      changes:
+        - modifyDataType:
+            columnName:  rentail
+            newDataType:  NUMBER(12,2)
+            tableName:  investiment
+        - modifyDataType:
+            columnName:  portfolio_share
+            newDataType:  NUMBER(12,2)
+            tableName:  investiment
