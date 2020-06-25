@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @CrossOrigin
 @RestController
@@ -29,12 +31,24 @@ public class InvestmentRest {
 
     @Autowired
     private InvestmentService service;
+
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
     public List<InvestimentDTO> getAll() {
         List<Investiment> investiments = service.getAll();
 
         return castToDto(investiments);
+    }
+
+    @GetMapping("/totalApplied")
+    @ResponseStatus(HttpStatus.OK)
+    public BigDecimal getTotalApplied() {
+        List<Investiment> investiments = service.getAll();
+        BigDecimal total = investiments.stream()
+                .map(Investiment::getAppliedAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return total;
     }
 
     @PostMapping("/newInvestiment")
