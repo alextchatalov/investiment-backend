@@ -20,3 +20,50 @@ databaseChangeLog:
             columnName:  portfolio_share
             newDataType:  NUMBER(12,2)
             tableName:  investiment
+  - changeSet:
+      id: 01-07-2020-16-11
+      author: Alex
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: rebalance_pk
+                  name: id
+                  type: NUMBER
+              - column:
+                  name: investiment_code
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: investiment_rebalance_fk
+                    references: investiment(investiment_code)
+              - column:
+                  name: note
+                  type: NUMBER
+              - column:
+                  name: percent_wallet
+                  type: NUMBER(12,2)
+              - column:
+                  name: ideal_total_applied
+                  type: NUMBER(12,2)
+              - column:
+                  name: ideal_percent_wallet
+                  type: NUMBER(12,2)
+              - column:
+                  name: ideal_amount
+                  type: NUMBER
+              - column:
+                  name: ad_value_apply
+                  type: NUMBER(12,2)
+              - column:
+                  name: ad_percent_wallet
+                  type: NUMBER(12,2)
+              - column:
+                  name: ad_amount
+                  type: NUMBER(12,2)
+              - column:
+                  name: status
+                  type: VARCHAR2(255)
+            tableName: wallet_rebalance
