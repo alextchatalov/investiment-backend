@@ -2,15 +2,12 @@ package com.monitor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class MonitorApplication {
+public class InvestimentApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MonitorApplication.class, args);
+		SpringApplication.run(InvestimentApplication.class, args);
 	}
 
 //	@Bean
