@@ -94,4 +94,8 @@ public class Investiment {
     public void setPortfolioShare(BigDecimal portfolioShare) {
         this.portfolioShare = portfolioShare;
     }
+
+    public boolean isStonkOrFII() {
+        return TypeInvestiment.ACAO.equals(this.getType()) || TypeInvestiment.FUNDOS_IMOBILIARIOS.equals(this.getType());
+    }
 }

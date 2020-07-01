@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+import yahoofinance.quotes.fx.FxSymbols;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +38,16 @@ public class InvestmentRest {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<InvestimentDTO> getAll() {
+    public List<InvestimentDTO> getAll() throws IOException {
         List<Investiment> investiments = service.getAll();
-
         return castToDto(investiments);
+    }
+
+    @GetMapping("/rebalancear")
+    @ResponseStatus(HttpStatus.OK)
+    public void getRebalanceamento() throws IOException {
+
+        service.getRebalanceamentoCarteira();
     }
 
     @GetMapping("/totalApplied")

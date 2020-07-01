@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -90,5 +92,23 @@ public class InvestimentBusiness {
         File tempFile = File.createTempFile(fileName,"");
         multipart.transferTo(tempFile);
         return tempFile;
+    }
+
+    public void getRebalanceamentoCarteira() throws IOException {
+        List<Investiment> wallet = getAll();
+        for (Investiment stonk : wallet) {
+            if (stonk.isStonkOrFII()) {
+                String codeStonkYahoo = getCodeStonkYahoo(stonk.getInvestimentCode());
+                Stock itsa = YahooFinance.get(codeStonkYahoo);
+                itsa.print();
+            }
+        }
+
+
+    }
+
+    private String getCodeStonkYahoo(String investimentCode) {
+        String codeYahoo = investimentCode.substring(0, investimentCode.indexOf(" -"));
+        return codeYahoo +".SA";
     }
 }
