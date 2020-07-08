@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -17,6 +19,7 @@ public class WalletRebalance {
 
     // Posicao atual
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)
@@ -32,7 +35,7 @@ public class WalletRebalance {
     @Column(name = "ideal_percent_wallet")
     private BigDecimal idealPercentWallet;
     @Column(name = "ideal_amount")
-    private Integer ideal_amount;
+    private Integer idealAmount;
     // Ajuste de Posicao
     @Column(name = "ad_value_apply")
     private BigDecimal adValueApply;
@@ -91,12 +94,12 @@ public class WalletRebalance {
         this.idealPercentWallet = idealPercentWallet;
     }
 
-    public Integer getIdeal_amount() {
-        return ideal_amount;
+    public Integer getIdealAmount() {
+        return idealAmount;
     }
 
-    public void setIdeal_amount(Integer ideal_amount) {
-        this.ideal_amount = ideal_amount;
+    public void setIdealAmount(Integer idealAmount) {
+        this.idealAmount = idealAmount;
     }
 
     public BigDecimal getAdValueApply() {

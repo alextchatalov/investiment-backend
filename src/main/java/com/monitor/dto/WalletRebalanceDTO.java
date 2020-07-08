@@ -19,7 +19,7 @@ public class WalletRebalanceDTO {
     private BigDecimal percentWallet;
     private BigDecimal idealTotalApplied;
     private BigDecimal idealPercentWallet;
-    private Integer ideal_amount;
+    private Integer idealAmount;
     private BigDecimal adValueApply;
     private BigDecimal adPercentWallet;
     private Integer adAmount;

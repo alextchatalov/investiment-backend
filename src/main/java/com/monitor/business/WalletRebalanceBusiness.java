@@ -29,7 +29,21 @@ public class WalletRebalanceBusiness {
     }
 
     public List<WalletRebalance> getAll() {
+        List<WalletRebalance> walletRebalances = (List<WalletRebalance>) repository.findAll();
+        if (walletRebalances.isEmpty()) {
+            createInitialWalletRebalance();
+        }
+
         return (List<WalletRebalance>) repository.findAll();
+    }
+
+    private void createInitialWalletRebalance() {
+        for (Investiment investiment : investimentRepository.findAll()) {
+            WalletRebalance rebalance = new WalletRebalance();
+            rebalance.setInvestiment(investiment);
+            save(rebalance);
+        }
+
     }
 
     public void save(WalletRebalance WalletRebalance) {
