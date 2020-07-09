@@ -1,5 +1,7 @@
 package com.monitor.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monitor.domain.Investiment;
 import com.monitor.domain.enums.InvestimentStatus;
 import lombok.AllArgsConstructor;
@@ -11,8 +13,8 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @Getter
+@JsonAutoDetect
 public class WalletRebalanceDTO {
-
     private Long id;
     private Investiment investiment;
     private Integer note;

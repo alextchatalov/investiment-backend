@@ -35,7 +35,7 @@ public class WalletRebalanceRest {
     }
 
     @PostMapping("/update")
-    public void updateRebalance(@RequestParam("rebalance") WalletRebalanceDTO rebalanceDTO) {
+    public void updateRebalance(@RequestBody WalletRebalanceDTO rebalanceDTO) {
         try {
             System.out.println(rebalanceDTO);
             service.save(castToEntity(rebalanceDTO));
