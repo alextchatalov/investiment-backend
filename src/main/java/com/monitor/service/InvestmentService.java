@@ -1,9 +1,7 @@
 package com.monitor.service;
 
 import com.monitor.business.InvestimentBusiness;
-import com.monitor.business.UserBusiness;
 import com.monitor.domain.Investiment;
-import com.monitor.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

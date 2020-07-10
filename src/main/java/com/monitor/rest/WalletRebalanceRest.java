@@ -1,6 +1,5 @@
 package com.monitor.rest;
 
-import com.monitor.domain.Investiment;
 import com.monitor.domain.WalletRebalance;
 import com.monitor.dto.WalletRebalanceDTO;
 import com.monitor.service.WalletRebalanceService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,6 +45,7 @@ public class WalletRebalanceRest {
 
     private WalletRebalance castToEntity(WalletRebalanceDTO rebalanceDTO) {
         WalletRebalance rebalance = new WalletRebalance();
+        rebalance.setId(rebalanceDTO.getId());
         rebalance.setInvestiment(rebalanceDTO.getInvestiment());
         rebalance.setNote(rebalanceDTO.getNote());
         rebalance.setPercentWallet(rebalanceDTO.getPercentWallet());

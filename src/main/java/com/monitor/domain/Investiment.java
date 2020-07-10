@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Entity
 public class Investiment {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "investiment_code")
     private String investimentCode;
     @Column(name = "type")

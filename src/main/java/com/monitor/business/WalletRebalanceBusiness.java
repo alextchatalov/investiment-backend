@@ -10,8 +10,11 @@ import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class WalletRebalanceBusiness {
@@ -29,20 +32,20 @@ public class WalletRebalanceBusiness {
     }
 
     public List<WalletRebalance> getAll() {
-        List<WalletRebalance> walletRebalances = (List<WalletRebalance>) repository.findAll();
+        List<WalletRebalance> walletRebalances = repository.findAll();
         if (walletRebalances.isEmpty()) {
             createInitialWalletRebalance();
         }
 
-        return (List<WalletRebalance>) repository.findAll();
+        return repository.findAll();
     }
 
     private void createInitialWalletRebalance() {
-        for (Investiment investiment : investimentRepository.findAll()) {
+        investimentRepository.findAll().stream().forEach(investiment -> {
             WalletRebalance rebalance = new WalletRebalance();
             rebalance.setInvestiment(investiment);
             save(rebalance);
-        }
+        });
 
     }
 

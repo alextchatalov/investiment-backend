@@ -22,7 +22,7 @@ public class WalletRebalance {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "investiment_code", referencedColumnName = "investiment_code")
     private Investiment investiment;
     @Column(name = "note")
