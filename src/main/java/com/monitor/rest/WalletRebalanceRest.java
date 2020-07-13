@@ -3,6 +3,7 @@ package com.monitor.rest;
 import com.monitor.domain.WalletRebalance;
 import com.monitor.dto.WalletRebalanceDTO;
 import com.monitor.service.WalletRebalanceService;
+import com.sun.istack.internal.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,6 @@ public class WalletRebalanceRest {
     @PostMapping("/update")
     public void updateRebalance(@RequestBody WalletRebalanceDTO rebalanceDTO) {
         try {
-            System.out.println(rebalanceDTO);
             service.save(castToEntity(rebalanceDTO));
         } catch (Exception e) {
             throw new ResponseStatusException(
@@ -63,19 +65,30 @@ public class WalletRebalanceRest {
 
         List<WalletRebalanceDTO> walletRebalanceDTOs = new ArrayList<>();
         rebalances.forEach(rebalance -> {
-            WalletRebalanceDTO rebalanceDTO = WalletRebalanceDTO.builder()
-                    .id(rebalance.getId())
-                    .investiment(rebalance.getInvestiment())
-                    .note(rebalance.getNote())
-                    .percentWallet(rebalance.getPercentWallet())
-                    .idealTotalApplied(rebalance.getIdealTotalApplied())
-                    .idealPercentWallet(rebalance.getIdealPercentWallet())
-                    .idealAmount(rebalance.getIdealAmount())
-                    .adValueApply(rebalance.getAdValueApply())
-                    .adPercentWallet(rebalance.getAdPercentWallet())
-                    .adAmount(rebalance.getAdAmount())
-                    .status(rebalance.getStatus())
-                    .build();
+            WalletRebalanceDTO rebalanceDTO = null;
+            BigDecimal price = BigDecimal.ZERO;
+            if (rebalance.getInvestiment().isStonkOrFII()) {
+                try {
+                    price = service.getPrice(rebalance.getInvestiment());
+                } catch (IOException e) {
+                    System.out.println("Não foi possivel recuperar o valor da cotação da ação: " + rebalance.getInvestiment().getInvestimentCode());
+                }
+            }
+                rebalanceDTO = WalletRebalanceDTO.builder()
+                        .id(rebalance.getId())
+                        .investiment(rebalance.getInvestiment())
+                        .note(rebalance.getNote())
+                        .percentWallet(rebalance.getPercentWallet())
+                        .idealTotalApplied(rebalance.getIdealTotalApplied())
+                        .idealPercentWallet(rebalance.getIdealPercentWallet())
+                        .idealAmount(rebalance.getIdealAmount())
+                        .adValueApply(rebalance.getAdValueApply())
+                        .adPercentWallet(rebalance.getAdPercentWallet())
+                        .adAmount(rebalance.getAdAmount())
+                        .status(rebalance.getStatus())
+                        .priceInResquest(price)
+                        .build();
+
             walletRebalanceDTOs.add(rebalanceDTO);
         });
         return walletRebalanceDTOs;

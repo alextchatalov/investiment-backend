@@ -11,10 +11,8 @@ import yahoofinance.YahooFinance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class WalletRebalanceBusiness {
@@ -28,7 +26,8 @@ public class WalletRebalanceBusiness {
     private InvestimentRepository investimentRepository;
 
     private List<Investiment> getAllInvestimet() {
-        return (List<Investiment>) investimentRepository.findAll();
+
+        return investimentRepository.findAll();
     }
 
     public List<WalletRebalance> getAll() {
@@ -36,14 +35,22 @@ public class WalletRebalanceBusiness {
         if (walletRebalances.isEmpty()) {
             createInitialWalletRebalance();
         }
-
         return repository.findAll();
     }
 
     private void createInitialWalletRebalance() {
+
         investimentRepository.findAll().stream().forEach(investiment -> {
             WalletRebalance rebalance = new WalletRebalance();
             rebalance.setInvestiment(investiment);
+//            rebalance.setNote(0);
+//            rebalance.setPercentWallet(BigDecimal.ZERO);
+//            rebalance.setIdealTotalApplied(BigDecimal.ZERO);
+//            rebalance.setIdealPercentWallet(BigDecimal.ZERO);
+//            rebalance.setIdealAmount(0);
+//            rebalance.setAdValueApply(BigDecimal.ZERO);
+//            rebalance.setAdPercentWallet(BigDecimal.ZERO);
+//            rebalance.setAdAmount(0);
             save(rebalance);
         });
 
@@ -53,21 +60,14 @@ public class WalletRebalanceBusiness {
         repository.save(WalletRebalance);
     }
 
-    public void getRebalanceamentoCarteira() throws IOException {
-        List<Investiment> wallet = getAllInvestimet();
-        for (Investiment stonk : wallet) {
-            if (stonk.isStonkOrFII()) {
-                String codeStonkYahoo = getCodeStonkYahoo(stonk.getInvestimentCode());
-                Stock itsa = YahooFinance.get(codeStonkYahoo);
-                itsa.print();
-            }
-        }
-
-
+    private String getCodeStonkYahoo(String code) {
+        System.out.println(code);
+        String codeYahoo = code.substring(0, code.indexOf(" -"));
+        return codeYahoo +".SA";
     }
 
-    private String getCodeStonkYahoo(String WalletRebalanceCode) {
-        String codeYahoo = WalletRebalanceCode.substring(0, WalletRebalanceCode.indexOf(" -"));
-        return codeYahoo +".SA";
+    public BigDecimal getPrice(Investiment investiment) throws IOException {
+        String codeStonkYahoo = getCodeStonkYahoo(investiment.getInvestimentCode());
+        return YahooFinance.get(codeStonkYahoo).getQuote().getPrice();
     }
 }
