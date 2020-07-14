@@ -3,7 +3,6 @@ package com.monitor.rest;
 import com.monitor.domain.WalletRebalance;
 import com.monitor.dto.WalletRebalanceDTO;
 import com.monitor.service.WalletRebalanceService;
-import com.sun.istack.internal.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
