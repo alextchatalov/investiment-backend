@@ -56,8 +56,9 @@ public class WalletRebalanceBusiness {
 
     }
 
-    public void save(WalletRebalance WalletRebalance) {
-        repository.save(WalletRebalance);
+    public void save(WalletRebalance rebalance) {
+        repository.save(rebalance);
+        investimentRepository.save(rebalance.getInvestiment());
     }
 
     private String getCodeStonkYahoo(String code) {

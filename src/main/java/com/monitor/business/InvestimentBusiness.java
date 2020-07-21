@@ -78,6 +78,7 @@ public class InvestimentBusiness {
                     importInvestiment.setBalance(balance);
                     importInvestiment.setRentail(rentail);
                     importInvestiment.setPortfolioShare(portfolioShare);
+                    importInvestiment.setAmount(0);
 
                     save(importInvestiment);
                 });

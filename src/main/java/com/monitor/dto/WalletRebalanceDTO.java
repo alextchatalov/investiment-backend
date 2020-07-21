@@ -27,5 +27,6 @@ public class WalletRebalanceDTO {
     private Integer adAmount;
     private InvestimentStatus status;
     private BigDecimal priceInResquest;
+    private Integer amount;
 
 }

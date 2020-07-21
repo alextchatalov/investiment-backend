@@ -9,7 +9,7 @@
 # existing database with Liquibase's changelog.
 databaseChangeLog:
   - changeSet:
-      id: 02-06-2020-18-40
+      id: 24-06-2020-10-11
       author: Alex
       changes:
         - createTable:
@@ -17,23 +17,32 @@ databaseChangeLog:
               - column:
                   constraints:
                     primaryKey: true
-                    primaryKeyName: equipament_pk
-                  name: id
+                    primaryKeyName: investiment_pk
+                  name: investiment_code
+                  type: VARCHAR(255)
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+              - column:
+                  name: broker
+                  type: VARCHAR(255)
+              - column:
+                  name: first_date_application
+                  type: DATE
+              - column:
+                  name: applied_amount
+                  type: NUMBER(12,2)
+              - column:
+                  name: balance
+                  type: NUMBER(12,2)
+              - column:
+                  name: rentail
+                  type: NUMBER(2,2)
+              - column:
+                  name: portfolio_share
+                  type: NUMBER(2,2)
+              - column:
+                  defaultValue: 0
+                  name: amount
                   type: NUMBER
-              - column:
-                  name: name
-                  type: VARCHAR(255)
-              - column:
-                  name: temperature
-                  type: NUMBER(12,4)
-              - column:
-                  name: location
-                  type: VARCHAR(255)
-            tableName: equipament
-
-  - changeSet:
-      id: 02-06-2020-18-49
-      author: Alex
-      changes:
-        - sql:
-            sql: insert into equipament (id, name, temperature, location) values (1, 'Caldeira', '2000.5', 'Predio 10')
+            tableName: investiment

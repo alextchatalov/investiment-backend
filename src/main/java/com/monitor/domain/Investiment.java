@@ -32,6 +32,8 @@ public class Investiment {
     private BigDecimal rentail;
     @Column(name = "portfolio_share")
     private BigDecimal portfolioShare;
+    @Column(name = "amount")
+    private Integer amount;
 
     public String getInvestimentCode() {
         return investimentCode;
@@ -95,6 +97,14 @@ public class Investiment {
 
     public void setPortfolioShare(BigDecimal portfolioShare) {
         this.portfolioShare = portfolioShare;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public boolean isStonkOrFII() {

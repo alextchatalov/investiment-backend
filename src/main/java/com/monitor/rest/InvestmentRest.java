@@ -101,6 +101,7 @@ public class InvestmentRest {
                     .balance(inv.getBalance())
                     .rentail(inv.getRentail())
                     .portfolioShare(inv.getPortfolioShare())
+                    .amount(inv.getAmount())
                     .build();
             investimentDTOs.add(investmentDTO);
         });

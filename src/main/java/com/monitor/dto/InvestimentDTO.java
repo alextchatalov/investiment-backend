@@ -20,5 +20,6 @@ public class InvestimentDTO {
     private BigDecimal balance;
     private BigDecimal rentail;
     private BigDecimal portfolioShare;
+    private Integer amount;
 
 }

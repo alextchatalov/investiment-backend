@@ -1,5 +1,6 @@
 package com.monitor.rest;
 
+import com.monitor.domain.Investiment;
 import com.monitor.domain.WalletRebalance;
 import com.monitor.dto.WalletRebalanceDTO;
 import com.monitor.service.WalletRebalanceService;
@@ -57,6 +58,11 @@ public class WalletRebalanceRest {
         rebalance.setAdPercentWallet(rebalanceDTO.getAdPercentWallet());
         rebalance.setAdAmount(rebalanceDTO.getAdAmount());
         rebalance.setStatus(rebalanceDTO.getStatus());
+
+        Investiment investiment = rebalance.getInvestiment();
+        investiment.setAmount(rebalanceDTO.getAmount());
+        rebalance.setInvestiment(investiment);
+
         return rebalance;
     }
 
@@ -86,6 +92,7 @@ public class WalletRebalanceRest {
                         .adAmount(rebalance.getAdAmount())
                         .status(rebalance.getStatus())
                         .priceInResquest(price)
+                        .amount(rebalance.getInvestiment().getAmount())
                         .build();
 
             walletRebalanceDTOs.add(rebalanceDTO);

@@ -9,7 +9,19 @@
 # existing database with Liquibase's changelog.
 databaseChangeLog:
   - changeSet:
-      id: 24-06-2020-10-11
+      id: 24-06-2020-12-40
+      author: Alex
+      changes:
+        - modifyDataType:
+            columnName:  rentail
+            newDataType:  NUMBER(12,2)
+            tableName:  investiment
+        - modifyDataType:
+            columnName:  portfolio_share
+            newDataType:  NUMBER(12,2)
+            tableName:  investiment
+  - changeSet:
+      id: 01-07-2020-16-11
       author: Alex
       changes:
         - createTable:
@@ -17,28 +29,41 @@ databaseChangeLog:
               - column:
                   constraints:
                     primaryKey: true
-                    primaryKeyName: investiment_pk
+                    primaryKeyName: rebalance_pk
+                  name: id
+                  type: NUMBER
+              - column:
                   name: investiment_code
                   type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: investiment_rebalance_fk
+                    references: investiment(investiment_code)
               - column:
-                  name: type
-                  type: VARCHAR(255)
+                  name: note
+                  type: NUMBER
               - column:
-                  name: broker
-                  type: VARCHAR(255)
-              - column:
-                  name: first_date_application
-                  type: DATE
-              - column:
-                  name: applied_amount
+                  name: percent_wallet
                   type: NUMBER(12,2)
               - column:
-                  name: balance
+                  name: ideal_total_applied
                   type: NUMBER(12,2)
               - column:
-                  name: rentail
-                  type: NUMBER(2,2)
+                  name: ideal_percent_wallet
+                  type: NUMBER(12,2)
               - column:
-                  name: portfolio_share
-                  type: NUMBER(2,2)
-            tableName: investiment
+                  name: ideal_amount
+                  type: NUMBER
+              - column:
+                  name: ad_value_apply
+                  type: NUMBER(12,2)
+              - column:
+                  name: ad_percent_wallet
+                  type: NUMBER(12,2)
+              - column:
+                  name: ad_amount
+                  type: NUMBER(12,2)
+              - column:
+                  name: status
+                  type: VARCHAR2(255)
+            tableName: wallet_rebalance
