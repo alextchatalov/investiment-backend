@@ -95,19 +95,6 @@ public class InvestimentBusiness {
         return tempFile;
     }
 
-    public void getRebalanceamentoCarteira() throws IOException {
-        List<Investiment> wallet = getAll();
-        for (Investiment stonk : wallet) {
-            if (stonk.isStonkOrFII()) {
-                String codeStonkYahoo = getCodeStonkYahoo(stonk.getInvestimentCode());
-                Stock itsa = YahooFinance.get(codeStonkYahoo);
-                itsa.print();
-            }
-        }
-
-
-    }
-
     private String getCodeStonkYahoo(String investimentCode) {
         String codeYahoo = investimentCode.substring(0, investimentCode.indexOf(" -"));
         return codeYahoo +".SA";

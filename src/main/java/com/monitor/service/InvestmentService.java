@@ -30,8 +30,4 @@ public class InvestmentService {
     public void uploadFile(MultipartFile[] files) {
         business.uploadFile(files);
     }
-
-    public void getRebalanceamentoCarteira() throws IOException {
-        business.getRebalanceamentoCarteira();
-    }
 }

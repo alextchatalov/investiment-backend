@@ -6,16 +6,7 @@ import com.monitor.dto.InvestimentDTO;
 import com.monitor.service.InvestmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import yahoofinance.Stock;
@@ -43,13 +34,6 @@ public class InvestmentRest {
         return castToDto(investiments);
     }
 
-    @GetMapping("/rebalancear")
-    @ResponseStatus(HttpStatus.OK)
-    public void getRebalanceamento() throws IOException {
-
-        service.getRebalanceamentoCarteira();
-    }
-
     @GetMapping("/totalApplied")
     @ResponseStatus(HttpStatus.OK)
     public BigDecimal getTotalApplied() {
@@ -63,9 +47,21 @@ public class InvestmentRest {
 
     @PostMapping("/newInvestiment")
     @ResponseStatus(HttpStatus.CREATED)
-    public void newInvestiment(@RequestBody Investiment investimentRest) {
+    public void newInvestiment(@RequestBody InvestimentDTO investimentDTO) {
         try {
-            service.save(investimentRest);
+            service.save(castToEntity(investimentDTO));
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PatchMapping("/updateInvestimet/{investimentCode}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void updateInvestiment(@RequestBody InvestimentDTO investimentDTO,
+                                  @PathVariable("investimentCode") String investimentCode) {
+        try {
+            service.save(castToEntity(investimentDTO));
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, e.getMessage());
@@ -108,4 +104,17 @@ public class InvestmentRest {
         return investimentDTOs;
     }
 
+    private Investiment castToEntity(InvestimentDTO investimentDTO) {
+        Investiment investiment = new Investiment();
+        investiment.setInvestimentCode(investimentDTO.getInvestimentCode());
+        investiment.setType(TypeInvestiment.valueOf(investimentDTO.getType()));
+        investiment.setBroker(investimentDTO.getBroker());
+        investiment.setFirstDateApplication(investimentDTO.getFirstDateApplication());
+        investiment.setAppliedAmount(investimentDTO.getAppliedAmount());
+        investiment.setBalance(investimentDTO.getBalance());
+        investiment.setRentail(investimentDTO.getRentail());
+        investiment.setPortfolioShare(investimentDTO.getPortfolioShare());
+        investiment.setAmount(investimentDTO.getAmount());
+        return investiment;
+    }
 }
