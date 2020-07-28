@@ -2,6 +2,7 @@ package com.monitor.service;
 
 import com.monitor.business.InvestimentBusiness;
 import com.monitor.domain.Investiment;
+import com.monitor.dto.InvestimentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,5 +30,9 @@ public class InvestmentService {
 
     public void uploadFile(MultipartFile[] files) {
         business.uploadFile(files);
+    }
+
+    public void update(InvestimentDTO investimentDTO, String investimentCode) {
+        business.update(investimentDTO, investimentCode);
     }
 }

@@ -3,6 +3,7 @@ package com.monitor.business;
 import com.monitor.domain.Investiment;
 import com.monitor.domain.User;
 import com.monitor.domain.enums.TypeInvestiment;
+import com.monitor.dto.InvestimentDTO;
 import com.monitor.repository.InvestimentRepository;
 import com.monitor.repository.UserRepository;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -98,5 +99,20 @@ public class InvestimentBusiness {
     private String getCodeStonkYahoo(String investimentCode) {
         String codeYahoo = investimentCode.substring(0, investimentCode.indexOf(" -"));
         return codeYahoo +".SA";
+    }
+
+    public void update(InvestimentDTO investimentDTO, String investimentCode) {
+
+        Investiment investiment = repository.findInvestmentByInvestimentCode(investimentCode);
+        investiment.setInvestimentCode(investimentDTO.getInvestimentCode());
+        investiment.setType(TypeInvestiment.fromString(investimentDTO.getType()));
+        investiment.setBroker(investimentDTO.getBroker());
+        investiment.setFirstDateApplication(investimentDTO.getFirstDateApplication());
+        investiment.setAppliedAmount(investimentDTO.getAppliedAmount());
+        investiment.setBalance(investimentDTO.getBalance());
+        investiment.setRentail(investimentDTO.getRentail());
+        investiment.setPortfolioShare(investimentDTO.getPortfolioShare());
+        investiment.setAmount(investimentDTO.getAmount());
+        repository.save(investiment);
     }
 }

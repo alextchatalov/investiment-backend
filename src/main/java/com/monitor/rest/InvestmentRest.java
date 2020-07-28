@@ -6,6 +6,7 @@ import com.monitor.dto.InvestimentDTO;
 import com.monitor.service.InvestmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -61,7 +62,7 @@ public class InvestmentRest {
     public void updateInvestiment(@RequestBody InvestimentDTO investimentDTO,
                                   @PathVariable("investimentCode") String investimentCode) {
         try {
-            service.save(castToEntity(investimentDTO));
+            service.update(investimentDTO, investimentCode);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, e.getMessage());
@@ -107,7 +108,7 @@ public class InvestmentRest {
     private Investiment castToEntity(InvestimentDTO investimentDTO) {
         Investiment investiment = new Investiment();
         investiment.setInvestimentCode(investimentDTO.getInvestimentCode());
-        investiment.setType(TypeInvestiment.valueOf(investimentDTO.getType()));
+        investiment.setType(TypeInvestiment.fromString(investimentDTO.getType()));
         investiment.setBroker(investimentDTO.getBroker());
         investiment.setFirstDateApplication(investimentDTO.getFirstDateApplication());
         investiment.setAppliedAmount(investimentDTO.getAppliedAmount());
