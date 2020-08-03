@@ -2,10 +2,12 @@ package com.monitor.business;
 
 import com.monitor.domain.Investiment;
 import com.monitor.domain.User;
+import com.monitor.domain.WalletRebalance;
 import com.monitor.domain.enums.TypeInvestiment;
 import com.monitor.dto.InvestimentDTO;
 import com.monitor.repository.InvestimentRepository;
 import com.monitor.repository.UserRepository;
+import com.monitor.repository.WalletRebalanceRepository;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -36,6 +38,9 @@ public class InvestimentBusiness {
     @Autowired
     private InvestimentRepository repository;
 
+    @Autowired
+    private WalletRebalanceRepository rebalanceRepository;
+
     public List<Investiment> getAll() {
         return (List<Investiment>) repository.findAll();
     }
@@ -46,6 +51,8 @@ public class InvestimentBusiness {
 
     public void delete(String investimentCode) {
         Investiment investiment = repository.findInvestmentByInvestimentCode(investimentCode);
+        WalletRebalance rebalance = rebalanceRepository.findByInvestiment(investiment);
+        rebalanceRepository.delete(rebalance);
         repository.delete(investiment);
     }
 

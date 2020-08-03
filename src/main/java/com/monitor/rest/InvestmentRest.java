@@ -4,6 +4,7 @@ import com.monitor.domain.Investiment;
 import com.monitor.domain.enums.TypeInvestiment;
 import com.monitor.dto.InvestimentDTO;
 import com.monitor.service.InvestmentService;
+import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +71,7 @@ public class InvestmentRest {
     }
 
     @DeleteMapping("/delete/{investimentCode}")
-    public void deleteInvestiment(@PathVariable String investimentCode) {
+    public void deleteInvestiment(@PathVariable("investimentCode") String investimentCode) {
         try {
             service.delete(investimentCode);
         } catch (Exception e) {
