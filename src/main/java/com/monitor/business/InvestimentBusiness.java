@@ -1,12 +1,10 @@
 package com.monitor.business;
 
 import com.monitor.domain.Investiment;
-import com.monitor.domain.User;
 import com.monitor.domain.WalletRebalance;
 import com.monitor.domain.enums.TypeInvestiment;
 import com.monitor.dto.InvestimentDTO;
 import com.monitor.repository.InvestimentRepository;
-import com.monitor.repository.UserRepository;
 import com.monitor.repository.WalletRebalanceRepository;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,19 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class InvestimentBusiness {
@@ -121,5 +115,24 @@ public class InvestimentBusiness {
         investiment.setPortfolioShare(investimentDTO.getPortfolioShare());
         investiment.setAmount(investimentDTO.getAmount());
         repository.save(investiment);
+
+        recalculatePortFolioShare();
+    }
+
+    private void recalculatePortFolioShare() {
+        List<Investiment> allInvestiments = repository.findAll();
+        BigDecimal totalAppliedWallet = allInvestiments.stream()
+                .map(Investiment::getAppliedAmount)
+                .filter(Objects::nonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        allInvestiments.stream().forEach(inv -> {
+            if(inv.getAppliedAmount().compareTo(BigDecimal.ZERO) == 0 ) {
+                inv.setPortfolioShare(BigDecimal.ZERO);
+            } else {
+                inv.setPortfolioShare(inv.getAppliedAmount().divide(totalAppliedWallet).multiply(new BigDecimal(100)));
+            }
+            repository.save(inv);
+        });
     }
 }
