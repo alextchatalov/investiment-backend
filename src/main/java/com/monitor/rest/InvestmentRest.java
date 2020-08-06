@@ -59,11 +59,12 @@ public class InvestmentRest {
     }
 
     @PatchMapping("/updateInvestimet/{investimentCode}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateInvestiment(@RequestBody InvestimentDTO investimentDTO,
+    @ResponseStatus(HttpStatus.OK)
+    public List<InvestimentDTO> updateInvestiment(@RequestBody InvestimentDTO investimentDTO,
                                   @PathVariable("investimentCode") String investimentCode) {
         try {
             service.update(investimentDTO, investimentCode);
+            return getAll();
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, e.getMessage());
