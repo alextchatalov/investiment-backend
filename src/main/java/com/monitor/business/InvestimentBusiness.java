@@ -52,7 +52,9 @@ public class InvestimentBusiness {
     public void delete(String investimentCode) {
         Investiment investiment = repository.findInvestmentByInvestimentCode(investimentCode);
         WalletRebalance rebalance = rebalanceRepository.findByInvestiment(investiment);
-        rebalanceRepository.delete(rebalance);
+        if(rebalance != null){
+            rebalanceRepository.delete(rebalance);
+        }
         repository.delete(investiment);
     }
 
