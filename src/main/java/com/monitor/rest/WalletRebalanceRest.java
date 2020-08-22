@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @CrossOrigin
 @RestController
@@ -30,9 +31,8 @@ public class WalletRebalanceRest {
 
     @GetMapping("/list")
     @ResponseStatus(HttpStatus.OK)
-    public List<WalletRebalanceDTO> getAll() {
-        List<WalletRebalance> rebalances = service.getAll();
-        return castToDto(rebalances);
+    public List<WalletRebalanceDTO> getAll() throws ExecutionException, InterruptedException {
+        return service.getAll();
     }
 
     @PostMapping("/update")
@@ -64,40 +64,6 @@ public class WalletRebalanceRest {
         rebalance.setInvestiment(investiment);
 
         return rebalance;
-    }
-
-    private List<WalletRebalanceDTO> castToDto(List<WalletRebalance> rebalances) {
-
-        List<WalletRebalanceDTO> walletRebalanceDTOs = new ArrayList<>();
-        rebalances.forEach(rebalance -> {
-            WalletRebalanceDTO rebalanceDTO = null;
-            BigDecimal price = BigDecimal.ZERO;
-            if (rebalance.getInvestiment().isStonkOrFII()) {
-                try {
-                    price = service.getPrice(rebalance.getInvestiment());
-                } catch (IOException e) {
-                    System.out.println("Não foi possivel recuperar o valor da cotação da ação: " + rebalance.getInvestiment().getInvestimentCode());
-                }
-            }
-                rebalanceDTO = WalletRebalanceDTO.builder()
-                        .id(rebalance.getId())
-                        .investiment(rebalance.getInvestiment())
-                        .note(rebalance.getNote())
-                        .percentWallet(rebalance.getPercentWallet())
-                        .idealTotalApplied(rebalance.getIdealTotalApplied())
-                        .idealPercentWallet(rebalance.getIdealPercentWallet())
-                        .idealAmount(rebalance.getIdealAmount())
-                        .adValueApply(rebalance.getAdValueApply())
-                        .adPercentWallet(rebalance.getAdPercentWallet())
-                        .adAmount(rebalance.getAdAmount())
-                        .status(rebalance.getStatus())
-                        .priceInResquest(price)
-                        .amount(rebalance.getInvestiment().getAmount())
-                        .build();
-
-            walletRebalanceDTOs.add(rebalanceDTO);
-        });
-        return walletRebalanceDTOs;
     }
 
 }
