@@ -28,4 +28,28 @@ public class InvestimentRestTest {
             .statusCode(201);
     }
 
+    @Test
+    public void deleteInvestiment() {
+        given()
+                .port(port)
+                .contentType("application/json")
+                .when()
+                .delete("/api/v1/investiment/delete/Teste")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    public void updateInvestiment() {
+        String json = "{\"investimentCode\":\"MDIA3 - M.DIASBRANCO\",\"type\":\"Ação\",\"broker\":\"CLEAR CORRETORA\",\"firstDateApplication\":\"2020-01-16\",\"appliedAmount\":1097,\"balance\":1148,\"rentail\":3,\"portfolioShare\":1,\"amount\":\"2\"}";
+        given()
+                .port(port)
+                .contentType("application/json")
+                .body(json)
+                .when()
+                .patch("/api/v1/investiment/updateInvestimet/MDIA3%20-%20M.DIASBRANCO")
+                .then()
+                .statusCode(200);
+    }
+
 }
